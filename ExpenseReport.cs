@@ -28,6 +28,5 @@ public class ExpenseReport
     public static void Show(ExpenseReport report)
     {
         Console.WriteLine("Employee ID: {0}", Employee.Id.ToString());
-
     }
 }
