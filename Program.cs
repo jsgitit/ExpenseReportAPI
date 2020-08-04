@@ -17,7 +17,7 @@ namespace ExpenseReportAPI
                 BusinessPurpose = "Sales Trip"
             };
             
-            var expRptDetail = new ExpenseDetail
+            var expRptDetail = new Expense
             {
                 Id = 2000,
                 TransactionDate = expenseReport.StartDate,
