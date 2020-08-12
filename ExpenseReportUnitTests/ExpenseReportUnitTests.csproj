@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpenseReportAPI\ExpenseReportAPI.csproj" />
+    <ProjectReference Include="..\ExpenseReportAPI.csproj" />
   </ItemGroup>
 
 </Project>
