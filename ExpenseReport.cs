@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 public class ExpenseReport
@@ -17,18 +18,12 @@ public class ExpenseReport
     //constructor
     public ExpenseReport()
     {
-        Id = 10001;
-        Employee = new Person { Id = 0, FirstName = "", LastName = "" };
-        StartDate = DateTime.Now;
-        ThruDate = DateTime.Now.AddDays(7);  // is this default ok?
-        Status = ReportStatus.Draft;
-        Details = new List<Expense>();
-        DefaultAccounting = Employee.DefaultAccounting;
+
     }
 
     public long Save()
     {
-        Console.WriteLine("Expense Report Saved");
+        // do the save action and return the database Id
         return RandomID.GetId(10000);
     }
 
@@ -41,21 +36,27 @@ public class ExpenseReport
     public void Show()
     {
         Console.Write("Expense Report ID: {0}", Id);
-        Console.Write("\tEmployee ID: {0}", Employee.Id.ToString());
-        Console.Write("\tName: {0}", Employee.FullName);
-        Console.WriteLine("\tDefault Accounting {0}", DefaultAccounting);
-        Console.Write("Report Status: {0}", Status.ToString());
-        Console.WriteLine("\t\t\tTotal Expense Count: {0}", Details.Count().ToString());
+        Console.Write("\t\tEmployee ID: {0}", Employee.Id.ToString());
+        Console.WriteLine("\t\t\tName: {0}", Employee.FullName);
+        Console.Write("Default Accounting: {0}", DefaultAccounting);
+        Console.Write("\tBusiness Purpose: {0}", BusinessPurpose);
+        Console.WriteLine("\t\tReport Status: {0}", Status.ToString());
+        Console.WriteLine("-----");
         Console.WriteLine();
 
-        foreach (var expense in Details)
+        foreach (var expense in Details.OrderBy(d => d.TransactionDate))
         {
             Console.Write("ExpID: {0}", expense.Id.ToString());
             Console.Write("\tTrans Date: {0}", expense.TransactionDate.ToShortDateString());
-            Console.WriteLine("\tAmount: {0}", expense.Amount.ToString());
-            Console.Write("\tExp Type: {0}", expense.Type.ToString());
-            Console.Write("\tExp Category: {0}", expense.Category);
-            Console.WriteLine("\tBus Purp: {0}", expense.BusinessPurpose);
+            Console.Write("\tExp Category: {0}", expense.Category); 
+            Console.WriteLine("\tAmount: {0}", expense.Amount.ToString("C", CultureInfo.CurrentCulture));
+            Console.Write("Exp Type: {0}", expense.Type.ToString());
+            Console.WriteLine("\t\tBus Purp: {0}", expense.BusinessPurpose);
+            Console.WriteLine();
         }
+        Console.WriteLine("-----");
+        Console.Write("Total Expense Count: {0}", Details.Count().ToString());
+        Console.Write("\t\t\t\tTotal Expense Report Amount: {0}", 
+            Details.Sum(a => a.Amount).ToString("C",CultureInfo.CurrentCulture));
     }
 }
